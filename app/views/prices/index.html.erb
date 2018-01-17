@@ -1,0 +1,68 @@
+
+
+<div style="text-align: center" class="col-md-8 col-md-offset-2">
+		<h1>AboveLab Cryptocurrencies</h1>
+
+		<div style="text-align: center">
+			<div class="l-chart">
+				<div class="aspect-ratio">
+					<canvas id="chart"></canvas>
+				</div>
+			</div>
+		</div>
+
+</div>
+
+<div>
+	<div>
+		<% @prices.each do |price| %>
+			<p>Price: <%= price.price %>  Price: <%= price.created_at %></p>
+		<% end %>
+	</div>
+</div>
+
+
+<script>
+	Chart.defaults.global.animationEasing = 'easeInOntQuad',
+	Chart.defaults.global.responsive = true;
+	Chart.defaults.global.scaleOverride = false;
+	Chart.defaults.global.scaleShowLabels = false;
+	Chart.defaults.global.scaleSteps = 25;
+	Chart.defaults.global.scaleStepWidth = 100;
+	Chart.defaults.global.scaleStartValue = 0;
+	Chart.defaults.global.tooltipFontFamily = 'Open Sans';
+	Chart.defaults.global.tooltipFillColor = '#FFFFFF';
+	Chart.defaults.global.tooltipFontColor = '#6E6E6E';
+	Chart.defaults.global.tooltipCaretSize = 0;
+	Chart.defaults.global.maintainAspectRatio = true;
+
+
+
+	var chart = document.getElementById('chart').getContext('2d'),
+		gradient = chart.createLinearGradient(0, 0, 0, 450);
+	var get_data = <%= data_set %>
+	var data = {
+		labels: get_data[1],
+		datasets: [{
+			label: 'BTC Tracker',
+			fillColor: gradient,
+			strokeColor: '#F1C40F',
+			pointColor: 'white',
+			pointStrokeColor: 'rgba(0,0,0,1)',
+			pointHighlightFill: '#fff',
+			pointHighlightStroke: 'rgba(0,0,0,1)',
+
+			data: get_data[0]
+		}]
+	};
+
+	gradient.addColorStop(0, 'rgba(241, 196, 15, 0.5)');
+	gradient.addColorStop(0.5, 'rgba(241, 196, 15, 0.25)');
+	gradient.addColorStop(1, 'rgba(241, 196, 15, 0)');
+
+	var chart = new Chart(chart , {
+    type: "line",
+    data: data, 
+});
+
+</script>
